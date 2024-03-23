@@ -1,15 +1,5 @@
-import React from 'react';
-import './App.css';
 import logo from './logo.svg';
-import{
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Link
-} from 'react-router-dom';
-import Home from "../components/Home"
-import Account from '../components/Account';
-import Matches from '../components/Matches';
+import './App.css';
 
 function App() {
   return (
@@ -17,7 +7,7 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-          Edit <code>src/App.tsx</code> and save to reload.
+          Edit <code>src/App.js</code> and save to reload.
         </p>
         <a
           className="App-link"
