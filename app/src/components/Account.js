@@ -8,7 +8,7 @@ export const Account = props => {
     console.log(props)
     return (
         <div>
-        
+            <h1>Nevan is a whore</h1>
         </div>
     )
 }

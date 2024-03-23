@@ -8,7 +8,7 @@ export const Matches = props => {
     console.log(props)
     return (
         <div>
-        
+        <h1>Zach is a whore</h1>
         </div>
     )
 }
