@@ -1,5 +1,8 @@
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import styles from './App.css';
+import Home from './components/Home'
+import Matches from './components/Matches'
+import Account from './components/Account'
 
 function App() {
   return (
@@ -19,25 +22,25 @@ function App() {
           </ul>
         </nav>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/Matches" element={<Matches />} />
-          <Route path="/Account" element={<Account />} />
+          <Route path="/" element={<HomeP />} />
+          <Route path="/Matches" element={<MatchesP />} />
+          <Route path="/Account" element={<AccountP />} />
         </Routes>
       </div>
     </Router>
   );
 }
 
-function Home() {
-  return <h2>Home Page</h2>;
+function HomeP() {
+  return <Home />;
 }
 
-function Matches() {
-  return <h2>Matches Page</h2>;
+function MatchesP() {
+  return <Matches />;
 }
 
-function Account() {
-  return <h2>Account Page</h2>;
+function AccountP() {
+  return <Account />;
 }
 
 export default App;
