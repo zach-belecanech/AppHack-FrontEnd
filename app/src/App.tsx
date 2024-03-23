@@ -1,6 +1,15 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import logo from './logo.svg';
+import{
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Link
+} from 'react-router-dom';
+import Home from "../components/Home"
+import Account from '../components/Account';
+import Matches from '../components/Matches';
 
 function App() {
   return (
