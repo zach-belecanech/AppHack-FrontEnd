@@ -9,8 +9,7 @@ import Login from './components/Login'
 function App() {
   return (
     <Router>
-      <title>ByteBuddies</title>
-      <div>
+      <div class='All'>
         <nav className={styles.navbar}>
           <ul>
             <li>

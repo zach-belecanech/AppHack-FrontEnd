@@ -1,0 +1,36 @@
+<p>First Name: {props.first}</p>
+        <p>Last Name: {props.last}</p>
+        <p>User's Email: {props.email}</p>
+        <p>User's Classes: {props.classes}</p>
+        <p>User's Availability: {props.free}</p>
+
+let students = [];
+    class Info {
+        constructor (first, last, email, classes, free) {
+            this.first = first;
+            this.last = last;
+            this.email = email;
+            this.classes = classes;
+            this.free = free;
+        }
+
+        getFirst() {
+            return this.first;
+        }
+
+        getLast() {
+            return this.last;
+        }
+
+        getEmail() {
+            return this.email;
+        }
+
+        getClasses() {
+            return this.classes;
+        }
+
+        getFree() {
+            return this.free;
+        }
+    }
