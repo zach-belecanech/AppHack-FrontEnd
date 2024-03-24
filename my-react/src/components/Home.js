@@ -1,7 +1,7 @@
 import React from 'react';
 import './Home.css';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
+//import Card from '@mui/material/Card';
+//import CardContent from '@mui/material/CardContent';
 
 export const Home = props => {
     
