@@ -1,15 +1,45 @@
-.regText {
-    background-color: #FFFFFF;
-    color: #000000;
-    border: 6px double #000000;
-    padding: 7px;
-    margin: 13px;
-    font-family: 'times new roman';
-    font-style: normal;
-    font-weight: normal;
-    font-size: 17px;
-    font-variant: normal;
-    line-height: 18px;
-    position: relative;
-  }
-  
+.homeContainer {
+  text-align: center;
+  padding: 20px;
+}
+
+.hero {
+  background-color: #c5b358; 
+  color: black; 
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.howItWorks .stepsContainer {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+}
+
+.step {
+  width: 30%;
+  padding: 10px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  background-color: #f4f4f2; 
+  border-left: 5px solid #c5b358; 
+}
+
+.testimonials .testimonial {
+  margin: 20px;
+  padding: 10px;
+  background-color: #f4f4f2; 
+  border-left: 5px solid #c5b358; 
+  color: black; 
+}
+
+.cta {
+  margin-top: 30px;
+  padding: 20px;
+  background-color: #222; 
+  color: #c5b358; 
+}
+
+.cta h2 {
+  margin-bottom: 20px;
+  color: #c5b358; 
+}

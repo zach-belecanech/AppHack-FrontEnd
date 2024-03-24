@@ -1,32 +1,24 @@
-/* Reset list styles */
 .nav-links ul {
   list-style-type: none;
   margin: 0;
   padding: 0;
   overflow: hidden;
-  background-color: #333; /* Dark background for the navbar */
+  background-color: #222; 
 }
 
-/* Style for each link */
 .nav-links li {
   float: left;
 }
 
-/* Style for the link tags */
 .nav-links a {
   display: block;
-  color: white;
+  color: #c5b358; 
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
 }
 
-/* Change color on hover */
 .nav-links a:hover {
-  background-color: #ddd;
+  background-color: #c5b358; 
   color: black;
-}
-
-.html {
-  
 }
