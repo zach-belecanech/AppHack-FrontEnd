@@ -14,7 +14,7 @@ export const SignUp = ({ onSignUp }) => {
   const [password, setPassword] = useState('');
   const [availabilityRanges, setAvailabilityRanges] = useState([{ availableFrom: '', availableUntil: '', period: 'AM', period2: 'AM' }]);
   const [classes, setClasses] = useState('');
-  const [days, setDays] = useState('');
+  const [daysOfTheWeek, setDaysOfTheWeek] = useState('');
 
   const createFirstName = (event) => {
     setFirstName(event.target.value);
@@ -32,8 +32,8 @@ export const SignUp = ({ onSignUp }) => {
     setPassword(event.target.value);
   };
 
-  const createDays = (event) => {
-    setDays(event.target.value);
+  const createDaysOfTheWeek = (event) => {
+    setDaysOfTheWeek(event.target.value);
   };
 
   const handleAvailabilityFromChange = (index, event) => {
@@ -72,7 +72,7 @@ export const SignUp = ({ onSignUp }) => {
           last_name: lastName,
           email: email,
           password: password,
-          days: days,
+          daysOfTheWeek: daysOfTheWeek,
           availability: availabilityRanges,
           classes: classes.split(',').map(className => className.trim())
         }),
@@ -143,8 +143,8 @@ export const SignUp = ({ onSignUp }) => {
                   <Grid item xs = {2}>
                     <TextField
                       label="Days"
-                      value={days}
-                      onChange={createDays}
+                      value={daysOfTheWeek}
+                      onChange={createDaysOfTheWeek}
                       required
                       sx={{ backgroundColor: 'white', borderRadius: '5px' }}
                     />
