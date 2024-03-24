@@ -53,8 +53,30 @@ export const Home = props => {
             <section className="testimonials">
                 <h2>Success Stories</h2>
                 <div className="testimonial">
-                    <p>"ByteBuddies has been a game-changer for my study routine. I've found amazing partners for my toughest classes!"</p>
-                    <p className="author">- Jane Doe, Computer Science Major</p>
+                    <p>"Joining the platform was a game-changer for me. 
+                        I struggled to find study partners who synced with my schedule and learning pace. 
+                        After signing up and setting my schedule, I was matched with a group of peers who 
+                        not only shared similar classes but also had free time that aligned perfectly with mine.
+                         Thanks to this platform, I've formed strong study groups that have significantly boosted
+                          my understanding of complex CS concepts."</p>
+                    <p className="author">- Maria, Sophomore CS Student</p>
+                </div>
+                <div className="testimonial">
+                    <p>"As a junior CS student juggling a heavy course load, finding time for group study sessions
+                         seemed impossible. That's when I discovered this platform. By inputting my schedule and
+                          preferences, I was effortlessly matched with peers who had complementary schedules. Through 
+                          collaborative efforts, we tackled challenging assignments and even started a side project 
+                          together. This platform has not only enhanced my academic performance but also expanded my
+                           network within the CS department."</p>
+                    <p className="author">- John, Junior CS Student</p>
+                </div>
+                <div className="testimonial">
+                    <p>"Transitioning to college can be overwhelming, especially when trying to navigate coursework 
+                        and meet new people. Joining this platform eased my worries. I signed up, set my schedule, and 
+                        within days, I was connected with peers who shared my classes. Through our study sessions, I not
+                         only improved academically but also made lasting friendships. This platform has been instrumental
+                          in helping me thrive in my first year at Appalachian State University."</p>
+                    <p className="author">- Emily, Freshman CS Student</p>
                 </div>
                 {}
             </section>
