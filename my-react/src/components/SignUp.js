@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import MenuItem from '@mui/material/MenuItem';
 
 export const SignUp = ({ onSignUp }) => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [availabilityRanges, setAvailabilityRanges] = useState([{ availableFrom: '', availableUntil: '' }]);
+  const [availabilityRanges, setAvailabilityRanges] = useState([{ availableFrom: '', availableUntil: '', period: 'AM', period2: 'AM' }]);
   const [classes, setClasses] = useState('');
 
   const createFirstName = (event) => {
@@ -39,7 +40,7 @@ export const SignUp = ({ onSignUp }) => {
   }
 
   const handleAddAvailabilityRange = () => {
-    setAvailabilityRanges([...availabilityRanges, { availableFrom: '', availableUntil: '' }]);
+    setAvailabilityRanges([...availabilityRanges, { availableFrom: '', availableUntil: '', period: 'AM', period2: 'AM' }]);
   }
 
   const handleRemoveAvailabilityRange = (index) => {
@@ -77,6 +78,18 @@ export const SignUp = ({ onSignUp }) => {
     }
   }
 
+  const handlePeriodChange = (index, event) => {
+    const newRanges = [...availabilityRanges];
+    newRanges[index].period = event.target.value; // Update the period value
+    setAvailabilityRanges(newRanges); // Set the updated state
+  };
+
+  const handlePeriodChange2 = (index, event) => {
+    const newRanges = [...availabilityRanges];
+    newRanges[index].period2 = event.target.value; // Update the period value
+    setAvailabilityRanges(newRanges); // Set the updated state
+  };
+
   return (
     <div>
       <h2>Sign Up</h2>
@@ -90,55 +103,74 @@ export const SignUp = ({ onSignUp }) => {
           />
         </div>
         <div>
-  <TextField
-    label="Last Name"
-    value={lastName}
-    onChange={createLastName}
-    required
-  />
-</div>
-<div>
-  <TextField
-    label="Email"
-    type="email"
-    value={email}
-    onChange={createEmail}
-    required
-  />
-</div>
-<div>
-  <TextField
-    label="Password"
-    type="password"
-    value={password}
-    onChange={createPassword}
-    required
-  />
-</div>
-{/* Availability Ranges */}
-{availabilityRanges.map((range, index) => (
-  <div key={index}>
-    <TextField
-      label={`Available From (Range ${index + 1})`}
-      value={range.availableFrom}
-      onChange={(event) => handleAvailabilityFromChange(index, event)}
-    />
-    <TextField
-      label={`Available Until (Range ${index + 1})`}
-      value={range.availableUntil}
-      onChange={(event) => handleAvailabilityUntilChange(index, event)}
-    />
-    <Button onClick={() => handleRemoveAvailabilityRange(index)}>Remove</Button>
-  </div>
-))}
-<Button onClick={handleAddAvailabilityRange}>Add Availability Range</Button>
-<div>
-  <TextField
-    label="Classes (comma separated)"
-    value={classes}
-    onChange={createClasses}
-  />
-</div>
+          <TextField
+            label="Last Name"
+            value={lastName}
+            onChange={createLastName}
+            required
+          />
+        </div>
+        <div>
+          <TextField
+            label="Email"
+            type="email"
+            value={email}
+            onChange={createEmail}
+            required
+          />
+        </div>
+        <div>
+          <TextField
+            label="Password"
+            type="password"
+            value={password}
+            onChange={createPassword}
+            required
+          />
+        </div>
+        {/* Availability Ranges */}
+        {availabilityRanges.map((range, index) => (
+          <div key={index}>
+            <TextField
+              label={`Available From (Range ${index + 1})`}
+              value={range.availableFrom}
+              onChange={(event) => handleAvailabilityFromChange(index, event)}
+            />
+            <TextField
+              select
+              label="AM/PM"
+              value={range.period}
+              onChange={(event) => handlePeriodChange(index, event)} // Call handlePeriodChange
+            >
+              <MenuItem value="AM">AM</MenuItem>
+              <MenuItem value="PM">PM</MenuItem>
+            </TextField>
+            <TextField
+              label={`Available Until (Range ${index + 1})`}
+              value={range.availableUntil}
+              onChange={(event) => handleAvailabilityUntilChange(index, event)}
+            />
+            <TextField
+              select
+              label="AM/PM"
+              value={range.period2} // Separate state for AM/PM selection
+              onChange={(event) => handlePeriodChange2(index, event)} // Call handlePeriodChange
+            >
+              <MenuItem value="AM">AM</MenuItem>
+              <MenuItem value="PM">PM</MenuItem>
+            </TextField>
+            <Button onClick={() => handleRemoveAvailabilityRange(index)}>Remove</Button>
+            <p />
+          </div>
+        ))}
+        <Button onClick={handleAddAvailabilityRange}>Add Availability Range</Button>
+        <div>
+          <TextField
+            label="Classes (comma separated)"
+            value={classes}
+            onChange={createClasses}
+          />
+        </div>
 
         <Button type="submit" variant="contained" color="primary">Sign Up</Button>
       </form>
