@@ -12,7 +12,7 @@ export const SignUp = ({ onSignUp }) => {
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [availabilityRanges, setAvailabilityRanges] = useState([{ availableFrom: '', availableUntil: '' }]);
+  const [availabilityRanges, setAvailabilityRanges] = useState([{ availableFrom: '', availableUntil: '', period: 'AM', period2: 'AM' }]);
   const [classes, setClasses] = useState('');
 
   const createFirstName = (event) => {
@@ -44,7 +44,7 @@ export const SignUp = ({ onSignUp }) => {
   }
 
   const handleAddAvailabilityRange = () => {
-    setAvailabilityRanges([...availabilityRanges, { availableFrom: '', availableUntil: '' }]);
+    setAvailabilityRanges([...availabilityRanges, { availableFrom: '', availableUntil: '', period: 'AM', period2: 'AM' }]);
   }
 
   const handleRemoveAvailabilityRange = (index) => {
@@ -81,6 +81,18 @@ export const SignUp = ({ onSignUp }) => {
       console.error('SignUp error: ', error.message);
     }
   }
+
+  const handlePeriodChange = (index, event) => {
+    const newRanges = [...availabilityRanges];
+    newRanges[index].period = event.target.value; // Update the period value
+    setAvailabilityRanges(newRanges); // Set the updated state
+  };
+
+  const handlePeriodChange2 = (index, event) => {
+    const newRanges = [...availabilityRanges];
+    newRanges[index].period2 = event.target.value; // Update the period value
+    setAvailabilityRanges(newRanges); // Set the updated state
+  };
 
     return (
       <Container component="main" maxWidth="sm">

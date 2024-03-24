@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -22,6 +22,8 @@ export const Login = ({ onLoginSuccess }) => {
     setPassword(event.target.value);
   };
 
+  
+
   const submit = async (event) => {
     event.preventDefault();
     try {
@@ -36,7 +38,7 @@ export const Login = ({ onLoginSuccess }) => {
           console.log('Login successful');
           setLoginStatus('success');
           onLoginSuccess();  
-          navigate('/Matches'); 
+          navigate('/Matches', { state: userData }); 
         } else {
           console.error('Invalid username or password');
           setLoginStatus('failure');
@@ -46,6 +48,24 @@ export const Login = ({ onLoginSuccess }) => {
         setLoginStatus('failure');
     }
 };
+
+const GoogleLogin = () => {
+  useEffect(() => {
+    window.google.accounts.id.initialize({
+      client_id: '380199076903-98dqfjah24m3frpca09o53fghapng3v7.apps.googleusercontent.com',
+      callback: handleCredentialResponse,
+    });
+    window.google.accounts.id.renderButton(
+      document.getElementById('googleSignInButton'),
+      { theme: 'outline', size: 'large' }
+    );
+  }, []);
+
+    const handleCredentialResponse = (response) => {
+      console.log('ID Token:', response.credential);
+      // Use the ID token to authenticate the user on your backend
+    };
+  }
 
   return (
     <Container component="main" maxWidth="xs">
@@ -95,6 +115,9 @@ export const Login = ({ onLoginSuccess }) => {
           >
             Login
           </Button>
+          <div id="googleSignInButton">
+            <GoogleLogin />
+          </div>
           {loginStatus === 'success' && <Alert severity="success">Login successful</Alert>}
           {loginStatus === 'failure' && <Alert severity="error">Login failed. Please check your username and password.</Alert>}
         </Box>
