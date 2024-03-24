@@ -36,9 +36,11 @@ const AppContent = () => {
     <div>
       <AppBar position="static" sx={{ backgroundColor: '#222' }}> 
         <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
             ByteBuddies
-          </Typography>
+          </Link>
+        </Typography>
           <Button color="inherit" component={Link} to="/">Home</Button>
           {isLoggedIn && <Button color="inherit" component={Link} to="/Matches">Matches</Button>}
           {!isLoggedIn ? (
