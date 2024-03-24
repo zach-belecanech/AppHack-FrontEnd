@@ -3,7 +3,7 @@
   margin: 0;
   padding: 0;
   overflow: hidden;
-  background-color: #222; 
+  background-color: #222; /* Dark background for the navbar */
 }
 
 .nav-links li {
@@ -12,13 +12,33 @@
 
 .nav-links a {
   display: block;
-  color: #c5b358; 
+  color: #c5b358; /* Golden text color */
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
 }
 
 .nav-links a:hover {
-  background-color: #c5b358; 
-  color: black;
+  background-color: #c5b358; /* Golden background on hover */
+  color: black; /* Text color changes to black on hover */
+}
+
+/* Additional styling for AppBar to match the theme */
+.AppBar {
+  background-color: #222 !important; /* Dark background for the AppBar */
+}
+
+.Toolbar button {
+  color: #c5b358 !important; /* Golden text color for buttons */
+}
+
+.Toolbar button:hover {
+  background-color: #333 !important; /* Slightly lighter black for hover */
+  color: #c5b358 !important; /* Maintain golden color for text on hover */
+}
+
+/* Styling for active links if needed */
+.active-link {
+  background-color: #c5b358; /* Golden background for active link */
+  color: black !important; /* Text color changes to black for active link */
 }
