@@ -6,7 +6,6 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
 import { Box } from '@mui/system';
-import MenuItem from '@mui/material/MenuItem';
 
 export const SignUp = ({ onSignUp }) => {
   const [firstName, setFirstName] = useState('');
@@ -14,26 +13,8 @@ export const SignUp = ({ onSignUp }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [availabilityRanges, setAvailabilityRanges] = useState([{ availableFrom: '', availableUntil: '', period: 'AM', period2: 'AM' }]);
-  const [classes, setClasses] = useState([]);
-  const [classList, setClassList] = useState([]);
-
-  // Fetch classes from API
-  useEffect(() => {
-    const fetchClasses = async () => {
-      try {
-        const response = await fetch('http://34.227.51.137:3000/getClasses');
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        const data = await response.json();
-        setClassList(data); // Assuming data is an array of class objects
-        console.log(classList);
-      } catch (error) {
-        console.error('Error fetching classes:', error.message);
-      }
-    };
-    fetchClasses();
-  }, []);
+  const [classes, setClasses] = useState('');
+  const [days, setDays] = useState('');
 
   const createFirstName = (event) => {
     setFirstName(event.target.value);
@@ -49,6 +30,10 @@ export const SignUp = ({ onSignUp }) => {
 
   const createPassword = (event) => {
     setPassword(event.target.value);
+  };
+
+  const createDays = (event) => {
+    setDays(event.target.value);
   };
 
   const handleAvailabilityFromChange = (index, event) => {
@@ -73,19 +58,10 @@ export const SignUp = ({ onSignUp }) => {
     setAvailabilityRanges(newAvailabilityRanges);
   };
 
-  const handleClassChange = (event) => {
-    const selectedClassNames = event.target.value;
-    console.log('Selected class names:', selectedClassNames);
-    console.log('Class list:', classList);
-    const selectedClassIds = selectedClassNames.map(className => {
-      const selectedClass = classList.find(item => item.class_name === className);
-      return selectedClass.class_id;
-    });
-    console.log('Selected class ids:', selectedClassIds);
-    setClasses(selectedClassIds);
-  };
+  const createClasses = (event) => {
+    setClasses(event.target.value);
+  }
   
-
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
@@ -96,8 +72,9 @@ export const SignUp = ({ onSignUp }) => {
           last_name: lastName,
           email: email,
           password: password,
+          days: days,
           availability: availabilityRanges,
-          classes: classes
+          classes: classes.split(',').map(className => className.trim())
         }),
         headers: {
           'Content-Type': 'application/json'
@@ -163,7 +140,16 @@ export const SignUp = ({ onSignUp }) => {
               </Grid>
               {availabilityRanges.map((range, index) => (
                 <React.Fragment key={index}>
-                  <Grid item xs={6}>
+                  <Grid item xs = {2}>
+                    <TextField
+                      label="Days"
+                      value={days}
+                      onChange={createDays}
+                      required
+                      sx={{ backgroundColor: 'white', borderRadius: '5px' }}
+                    />
+                  </Grid>
+                  <Grid item xs={5}>
                     <TextField
                       label={`Available From (Range ${index + 1})`}
                       value={range.availableFrom}
@@ -172,7 +158,7 @@ export const SignUp = ({ onSignUp }) => {
                       sx={{ backgroundColor: 'white', borderRadius: '5px' }}
                     />
                   </Grid>
-                  <Grid item xs={6}>
+                  <Grid item xs={5}>
                     <TextField
                       label={`Available Until (Range ${index + 1})`}
                       value={range.availableUntil}
@@ -191,21 +177,12 @@ export const SignUp = ({ onSignUp }) => {
               </Grid>
               <Grid item xs={12}>
                 <TextField
-                  select
                   label="Classes"
                   value={classes}
-                  onChange={handleClassChange}
+                  onChange={createClasses}
                   fullWidth
-                  SelectProps={{
-                    multiple: true
-                  }}
                   sx={{ backgroundColor: 'white', borderRadius: '5px' }}
                 >
-                  {classList.map((classItem) => (
-                  <MenuItem key={classItem.class_id} value={classItem.class_name}>
-                    {classItem.class_name}
-                  </MenuItem>
-                ))}
                 </TextField>
               </Grid>
               <Grid item xs={12}>
