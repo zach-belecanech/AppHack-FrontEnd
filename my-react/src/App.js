@@ -13,6 +13,7 @@ import Matches from './components/Matches';
 import Account from './components/Account';
 import Login from './components/Login';
 import SignUp from './components/SignUp';
+import './App.css'; // Import the App.css file
 
 const AppContent = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -36,11 +37,11 @@ const AppContent = () => {
     <div>
       <AppBar position="static" sx={{ backgroundColor: '#222' }}> 
         <Toolbar>
-        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-          <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
-            ByteBuddies
-          </Link>
-        </Typography>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1, color: '#c5b358' }}>
+            <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
+              ByteBuddies
+            </Link>
+          </Typography>
           <Button color="inherit" component={Link} to="/">Home</Button>
           {isLoggedIn && <Button color="inherit" component={Link} to="/Matches">Matches</Button>}
           {!isLoggedIn ? (
@@ -56,7 +57,7 @@ const AppContent = () => {
                 aria-haspopup="true"
                 onClick={handleMenu}
               >
-                <Avatar alt="Cat pfp" src="/CatFlower.jpg" />
+                <Avatar alt="User Profile" src="/UserProfile.jpg" />
               </IconButton>
               <Menu
                 id="menu-appbar"

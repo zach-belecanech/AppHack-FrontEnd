@@ -2,11 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { useDataStore } from '../store';
+import './Matches.css'; // Import CSS file for styling
+import { IconButton } from '@mui/material';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+
 
 export const Matches = () => {
     const location = useLocation();
     const data = location.state; // Access the passed data
     const [groupMembers, setGroupMembers] = useState([]);
+    const [currentIndex, setCurrentIndex] = useState(0); // Index of the currently displayed member
+    const [viewMode, setViewMode] = useState('grid'); // Default view mode is 'grid'
     const { studentid } = useDataStore();
 
     useEffect(() => {
@@ -36,18 +43,53 @@ export const Matches = () => {
         }
     }, [studentid, data]);
 
+    const handleNext = () => {
+        setCurrentIndex(prevIndex => (prevIndex + 1) % groupMembers.length);
+    };
+
+    const handlePrevious = () => {
+        setCurrentIndex(prevIndex => (prevIndex - 1 + groupMembers.length) % groupMembers.length);
+    };
+
+    const toggleViewMode = () => {
+        setViewMode(prevMode => prevMode === 'grid' ? 'scrolling' : 'grid');
+    };
+
     return (
-        <div>
-            <h2>Group Members</h2>
-            <div>
-                {groupMembers.map(member => (
-                    <div key={member.student_id} className="card">
-                        <h3>{member.first_name} {member.last_name}</h3>
-                        <p>Classes: {member.classes}</p>
-                        <p>Availability: {member.availability}</p>
-                    </div>
-                ))}
+        <div className="matches-container">
+            <div className="view-mode-toggle">
+                <button onClick={toggleViewMode}>{viewMode === 'grid' ? 'Switch to Scrolling' : 'Switch to Grid'}</button>
             </div>
+            <h2 className="matches-heading">Group Members</h2>
+            {viewMode === 'grid' ? (
+                <div className="matches-grid">
+                    {groupMembers.map(member => (
+                        <div key={member.student_id} className="matches-card">
+                            <h3>{member.first_name} {member.last_name}</h3>
+                            <p><strong>Classes:</strong> {member.classes}</p>
+                            <p><strong>Availability:</strong> {member.availability}</p>
+                        </div>
+                    ))}
+                </div>
+            ) : (
+                <div className="matches-scrolling-card">
+                    {groupMembers.length > 0 && (
+                        <div className="matches-card">
+                            <h3>{groupMembers[currentIndex].first_name} {groupMembers[currentIndex].last_name}</h3>
+                            <p><strong>Classes:</strong> {groupMembers[currentIndex].classes}</p>
+                            <p><strong>Availability:</strong> {groupMembers[currentIndex].availability}</p>
+                        </div>
+                    )}
+                    <div className="navigation-buttons">
+                        <IconButton onClick={handlePrevious}>
+                            <ArrowBackIcon />
+                        </IconButton>
+                        <IconButton onClick={handleNext}>
+                            <ArrowForwardIcon />
+                        </IconButton>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
