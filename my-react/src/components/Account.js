@@ -1,107 +1,120 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Button, TextField, Typography, Paper, Container, Grid } from '@mui/material';
-
+import { useDataStore } from '../store';
 
 const AccountDetails = () => {
-  const [userDetails, setUserDetails] = useState({});
-  const [isEditing, setIsEditing] = useState(false);
+  const { studentid } = useDataStore();
+  const [userData, setUserData] = useState(null);
+  const [editMode, setEditMode] = useState(false);
+  const [editedData, setEditedData] = useState({});
 
   useEffect(() => {
-    const fetchUserDetails = async () => {
+    const fetchData = async () => {
       try {
-        const response = await axios.get('http://34.227.51.137:3000/getStudentDetails');
-        setUserDetails(response.data[0]); 
+        const response = await axios.get(`http://34.227.51.137:3000/getStudentInfo/${studentid}`);
+        setUserData(response.data);
+        setEditedData(response.data);
       } catch (error) {
-        console.error('Error fetching user details:', error);
+        console.error('Error fetching user data:', error);
       }
     };
-    fetchUserDetails();
-  }, []);
+    fetchData();
+  }, [studentid]);
 
-  const handleEdit = () => {
-    setIsEditing(true);
+  const handleEditChange = (field, value) => {
+    setEditedData({ ...editedData, [field]: value });
   };
-
-  return (
-    <Container>
-      <Typography variant="h4" gutterBottom>Account Details</Typography>
-      {isEditing ? (
-        <EditForm userDetails={userDetails} setIsEditing={setIsEditing} />
-      ) : (
-        <DisplayDetails userDetails={userDetails} onEdit={handleEdit} />
-      )}
-    </Container>
-  );
-};
-
-const DisplayDetails = ({ userDetails, onEdit }) => {
-  return (
-    <Paper elevation={3} sx={{ padding: 3 }}>
-      <Typography variant="h6">Name: {userDetails.first_name} {userDetails.last_name}</Typography>
-      <Typography variant="h6">Email: {userDetails.email}</Typography>
-      <Button variant="contained" color="primary" onClick={onEdit} sx={{ marginTop: 2 }}>Edit</Button>
-    </Paper>
-  );
-};
-
-const EditForm = ({ userDetails, setIsEditing }) => {
-  const [editedDetails, setEditedDetails] = useState({ ...userDetails });
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setEditedDetails({ ...editedDetails, [name]: value });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  
+  const handleSave = async () => {
     try {
-      await axios.put('http://34.227.51.137:3000/updateStudentPersonalInfo', editedDetails);
-      setIsEditing(false);
+      // Parse the availability JSON before saving
+      const updatedData = {
+        ...editedData,
+        availability: JSON.parse(editedData.availability)
+      };
+      await axios.put(`http://34.227.51.137:3000/updateStudent/${studentid}`, updatedData);
+      setUserData(updatedData);
+      setEditMode(false);
     } catch (error) {
-      console.error('Error updating user details:', error);
+      console.error('Error updating user data:', error);
     }
   };
 
   return (
-    <Paper elevation={3} sx={{ padding: 3 }}>
-      <form onSubmit={handleSubmit}>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <TextField
-              fullWidth
-              label="First Name"
-              name="first_name"
-              value={editedDetails.first_name}
-              onChange={handleChange}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              fullWidth
-              label="Last Name"
-              name="last_name"
-              value={editedDetails.last_name}
-              onChange={handleChange}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              fullWidth
-              label="Email"
-              type="email"
-              name="email"
-              value={editedDetails.email}
-              onChange={handleChange}
-            />
-          </Grid>
-          {/* Add more fields as needed */}
-          <Grid item xs={12}>
-            <Button type="submit" variant="contained" color="primary">Save</Button>
-          </Grid>
-        </Grid>
-      </form>
-    </Paper>
+    <Container>
+      <Paper elevation={3} style={{ padding: '20px', margin: '20px 0' }}>
+        {userData ? (
+          <>
+            <Typography variant="h4" gutterBottom>
+              Account Details
+            </Typography>
+            {editMode ? (
+              <>
+                <TextField
+                  label="First Name"
+                  value={editedData.first_name}
+                  onChange={(e) => handleEditChange('first_name', e.target.value)}
+                  margin="normal"
+                />
+                <TextField
+                  label="Last Name"
+                  value={editedData.last_name}
+                  onChange={(e) => handleEditChange('last_name', e.target.value)}
+                  margin="normal"
+                />
+                <TextField
+                  label="Email"
+                  value={editedData.email}
+                  onChange={(e) => handleEditChange('email', e.target.value)}
+                  margin="normal"
+                />
+                {/* Add fields for classes and availability */}
+                <TextField
+                  label="Classes (comma-separated)"
+                  value={editedData.classes.join(', ')}
+                  onChange={(e) => handleEditChange('classes', e.target.value.split(',').map(s => s.trim()))}
+                  margin="normal"
+                />
+                {/* You may want to add a more sophisticated editor for availability */}
+                <TextField
+                  label="Availability (JSON format)"
+                  value={JSON.stringify(editedData.availability)}
+                  onChange={(e) => handleEditChange('availability', JSON.parse(e.target.value))}
+                  margin="normal"
+                  multiline
+                />
+                <Button onClick={handleSave} variant="contained" color="primary" style={{ margin: '20px 0' }}>
+                  Save
+                </Button>
+              </>
+            ) : (
+              <>
+                <Typography variant="h6">Name: {userData.first_name} {userData.last_name}</Typography>
+                <Typography variant="h6">Email: {userData.email}</Typography>
+                <Typography variant="h6">Classes:</Typography>
+                <ul>
+                  {userData.classes.map((className, index) => (
+                    <li key={index}>{className}</li>
+                  ))}
+                </ul>
+                <Typography variant="h6">Availability:</Typography>
+                {userData.availability.map((slot, index) => (
+                  <Typography key={index}>
+                    From: {slot.available_from} - Until: {slot.available_until}
+                  </Typography>
+                ))}
+                <Button onClick={() => setEditMode(true)} variant="contained" color="secondary" style={{ margin: '20px 0' }}>
+                  Edit
+                </Button>
+              </>
+            )}
+          </>
+        ) : (
+          <Typography>Loading...</Typography>
+        )}
+      </Paper>
+    </Container>
   );
 };
 
