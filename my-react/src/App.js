@@ -8,6 +8,7 @@ import Home from './components/Home';
 import Matches from './components/Matches';
 import Account from './components/Account';
 import Login from './components/Login';
+import SignUp from './components/SignUp'
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -36,7 +37,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/Matches" element={<Matches />} />
         <Route path="/Account" element={<Account />} />
-        <Route path="/SignUp" element={<Login onLogin={() => setIsLoggedIn(true)} />} />
+        <Route path="/SignUp" element={<SignUp onSignUp={() => setIsLoggedIn(true)} />} />
         <Route path="/Login" element={<Login onLogin={() => setIsLoggedIn(true)} />} />
       </Routes>
     </Router>
