@@ -7,11 +7,12 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Alert from '@mui/material/Alert';
 
-export const Login = ({ onLogin }) => {
+export const Login = ({ onLoginSuccess }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loginStatus, setLoginStatus] = useState(null);
-  const navigate = useNavigate(); // Using the useNavigate hook
+  const navigate = useNavigate(); 
+  
 
   const enterUserName = (event) => {
     setUsername(event.target.value);
@@ -24,27 +25,27 @@ export const Login = ({ onLogin }) => {
   const submit = async (event) => {
     event.preventDefault();
     try {
-      console.log(username);
-      const response = await fetch('http://34.227.51.137:3000/getStudent/' + username);
-      if (!response.ok) {
-          throw new Error('Network response was not ok');
-      }
-      const userData = await response.json();
-
-      if ((userData[0]['email'] === username) && (userData[0]['password'] === password)) {
+        console.log(username);
+        const response = await fetch('http://34.227.51.137:3000/getStudent/' + username);
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        const userData = await response.json();
+        
+        if ((userData[0]['email'] === username) && (userData[0]['password'] === password)) {
           console.log('Login successful');
           setLoginStatus('success');
-          onLogin(true); 
+          onLoginSuccess();  
           navigate('/Matches'); 
-      } else {
+        } else {
           console.error('Invalid username or password');
           setLoginStatus('failure');
-      }
+        }
     } catch (error) {
-      console.error('Login error:', error.message);
-      setLoginStatus('failure');
+        console.error('Login error:', error.message);
+        setLoginStatus('failure');
     }
-  };
+};
 
   return (
     <Container component="main" maxWidth="xs">
