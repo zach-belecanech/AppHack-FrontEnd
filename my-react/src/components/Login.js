@@ -66,7 +66,6 @@ const GoogleLogin = () => {
 
     const handleCredentialResponse = (response) => {
       console.log('ID Token:', response.credential);
-      // Use the ID token to authenticate the user on your backend
     };
   }
 

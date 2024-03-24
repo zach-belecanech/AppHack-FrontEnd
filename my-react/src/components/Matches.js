@@ -10,10 +10,10 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 export const Matches = () => {
     const location = useLocation();
-    const data = location.state; // Access the passed data
+    const data = location.state; 
     const [groupMembers, setGroupMembers] = useState([]);
-    const [currentIndex, setCurrentIndex] = useState(0); // Index of the currently displayed member
-    const [viewMode, setViewMode] = useState('grid'); // Default view mode is 'grid'
+    const [currentIndex, setCurrentIndex] = useState(0); 
+    const [viewMode, setViewMode] = useState('grid'); 
     const { studentid } = useDataStore();
 
     useEffect(() => {
@@ -22,13 +22,11 @@ export const Matches = () => {
                 const response = await axios.get('http://34.227.51.137:3000/getMLData');
                 const groups = response.data;
                 
-                // Use the student ID from the location state if available
                 const id = studentid || (data && data[0] && data[0].student_id);
 
                 for (const group of groups) {
                     const member = group.find(member => member.student_id === id);
                     if (member) {
-                        // Filter out the current member and set the remaining members as the group
                         setGroupMembers(group.filter(m => m.student_id !== id));
                         break;
                     }

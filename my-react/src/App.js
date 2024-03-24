@@ -13,7 +13,7 @@ import Matches from './components/Matches';
 import Account from './components/Account';
 import Login from './components/Login';
 import SignUp from './components/SignUp';
-import './App.css'; // Import the App.css file
+import './App.css'; 
 
 const AppContent = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);

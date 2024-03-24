@@ -29,7 +29,6 @@ const AccountDetails = () => {
 
   const handleSave = async () => {
     try {
-      // Parse the availability JSON before saving
       const updatedData = {
         ...editedData,
         availability: JSON.parse(editedData.availability)
