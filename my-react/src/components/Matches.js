@@ -1,25 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
+import { useDataStore } from '../store';
 
 export const Matches = () => {
     const location = useLocation();
     const data = location.state; // Access the passed data
     const [groupMembers, setGroupMembers] = useState([]);
+    const { studentid } = useDataStore();
 
     useEffect(() => {
         const fetchGroups = async () => {
             try {
                 const response = await axios.get('http://34.227.51.137:3000/getMLData');
                 const groups = response.data;
-                const studentId = data[0].student_id; // Assuming the student ID is passed in the location state
-                console.log(data);
+                
+                // Use the student ID from the location state if available
+                const id = studentid || (data && data[0] && data[0].student_id);
+
                 for (const group of groups) {
-                    const member = group.find(member => member.student_id === studentId);
-                    console.log(member);
+                    const member = group.find(member => member.student_id === id);
                     if (member) {
                         // Filter out the current member and set the remaining members as the group
-                        setGroupMembers(group.filter(m => m.student_id !== studentId));
+                        setGroupMembers(group.filter(m => m.student_id !== id));
                         break;
                     }
                 }
@@ -28,8 +31,10 @@ export const Matches = () => {
             }
         };
 
-        fetchGroups();
-    }, [data.student_id]);
+        if (studentid || (data && data[0] && data[0].student_id)) {
+            fetchGroups();
+        }
+    }, [studentid, data]);
 
     return (
         <div>
@@ -48,5 +53,3 @@ export const Matches = () => {
 };
 
 export default Matches;
-
-

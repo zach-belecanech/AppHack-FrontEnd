@@ -6,13 +6,15 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Alert from '@mui/material/Alert';
+import { useDataStore } from '../store';
+
 
 export const Login = ({ onLoginSuccess }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loginStatus, setLoginStatus] = useState(null);
+  const { setid } = useDataStore();
   const navigate = useNavigate(); 
-  
 
   const enterUserName = (event) => {
     setUsername(event.target.value);
@@ -36,6 +38,7 @@ export const Login = ({ onLoginSuccess }) => {
         
         if ((userData[0]['email'] === username) && (userData[0]['password'] === password)) {
           console.log('Login successful');
+          setid(userData[0]['student_id'])
           setLoginStatus('success');
           onLoginSuccess();  
           navigate('/Matches', { state: userData }); 
