@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
+import Paper from '@mui/material/Paper';
+import { Box } from '@mui/system';
 
 export const SignUp = ({ onSignUp }) => {
   const [firstName, setFirstName] = useState('');
@@ -77,73 +82,96 @@ export const SignUp = ({ onSignUp }) => {
     }
   }
 
-  return (
-    <div>
-      <h2>Sign Up</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <TextField
-            label="First Name"
-            value={firstName}
-            onChange={createFirstName}
-            required
-          />
-        </div>
-        <div>
-  <TextField
-    label="Last Name"
-    value={lastName}
-    onChange={createLastName}
-    required
-  />
-</div>
-<div>
-  <TextField
-    label="Email"
-    type="email"
-    value={email}
-    onChange={createEmail}
-    required
-  />
-</div>
-<div>
-  <TextField
-    label="Password"
-    type="password"
-    value={password}
-    onChange={createPassword}
-    required
-  />
-</div>
-{/* Availability Ranges */}
-{availabilityRanges.map((range, index) => (
-  <div key={index}>
-    <TextField
-      label={`Available From (Range ${index + 1})`}
-      value={range.availableFrom}
-      onChange={(event) => handleAvailabilityFromChange(index, event)}
-    />
-    <TextField
-      label={`Available Until (Range ${index + 1})`}
-      value={range.availableUntil}
-      onChange={(event) => handleAvailabilityUntilChange(index, event)}
-    />
-    <Button onClick={() => handleRemoveAvailabilityRange(index)}>Remove</Button>
-  </div>
-))}
-<Button onClick={handleAddAvailabilityRange}>Add Availability Range</Button>
-<div>
-  <TextField
-    label="Classes (comma separated)"
-    value={classes}
-    onChange={createClasses}
-  />
-</div>
-
-        <Button type="submit" variant="contained" color="primary">Sign Up</Button>
-      </form>
-    </div>
-  );
-}
-
+    return (
+      <Container component="main" maxWidth="sm">
+        <Paper elevation={6} sx={{ mt: 4, p: 3 }}>
+          <Typography component="h1" variant="h5" align="center">
+            Sign Up
+          </Typography>
+          <form onSubmit={handleSubmit}>
+            <Grid container spacing={2} sx={{ mt: 2 }}>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  label="First Name"
+                  value={firstName}
+                  onChange={createFirstName}
+                  required
+                  fullWidth
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  label="Last Name"
+                  value={lastName}
+                  onChange={createLastName}
+                  required
+                  fullWidth
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  label="Email"
+                  type="email"
+                  value={email}
+                  onChange={createEmail}
+                  required
+                  fullWidth
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  label="Password"
+                  type="password"
+                  value={password}
+                  onChange={createPassword}
+                  required
+                  fullWidth
+                />
+              </Grid>
+              {availabilityRanges.map((range, index) => (
+                <React.Fragment key={index}>
+                  <Grid item xs={6}>
+                    <TextField
+                      label={`Available From (Range ${index + 1})`}
+                      value={range.availableFrom}
+                      onChange={(event) => handleAvailabilityFromChange(index, event)}
+                      fullWidth
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <TextField
+                      label={`Available Until (Range ${index + 1})`}
+                      value={range.availableUntil}
+                      onChange={(event) => handleAvailabilityUntilChange(index, event)}
+                      fullWidth
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Button onClick={() => handleRemoveAvailabilityRange(index)} fullWidth>Remove Range {index + 1}</Button>
+                  </Grid>
+                </React.Fragment>
+              ))}
+              <Grid item xs={12}>
+                <Button onClick={handleAddAvailabilityRange} fullWidth>Add Availability Range</Button>
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  label="Classes (comma separated)"
+                  value={classes}
+                  onChange={createClasses}
+                  fullWidth
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
+                  <Button type="submit" variant="contained" color="primary">Sign Up</Button>
+                </Box>
+              </Grid>
+            </Grid>
+          </form>
+        </Paper>
+      </Container>
+    );
+  }
+  
 export default SignUp;

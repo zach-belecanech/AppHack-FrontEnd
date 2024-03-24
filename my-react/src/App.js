@@ -12,7 +12,7 @@ import Home from './components/Home';
 import Matches from './components/Matches';
 import Account from './components/Account';
 import Login from './components/Login';
-import SignUp from './components/SignUp'; 
+import SignUp from './components/SignUp';
 
 const AppContent = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -34,7 +34,7 @@ const AppContent = () => {
 
   return (
     <div>
-      <AppBar position="static">
+      <AppBar position="static" sx={{ backgroundColor: '#222' }}> 
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             ByteBuddies
@@ -54,7 +54,6 @@ const AppContent = () => {
                 aria-haspopup="true"
                 onClick={handleMenu}
               >
-                { }
                 <Avatar alt="Cat pfp" src="/CatFlower.jpg" />
               </IconButton>
               <Menu
@@ -79,6 +78,7 @@ const AppContent = () => {
           )}
         </Toolbar>
       </AppBar>
+
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/Matches" element={<Matches />} />
