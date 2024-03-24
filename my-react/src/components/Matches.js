@@ -1,61 +1,52 @@
-import React from 'react'
-import MatchesDyn from './MatchesDyn'
+import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
+import axios from 'axios';
 
-export const Matches = props => {
-    
-    const axios = require('axios');
+export const Matches = () => {
+    const location = useLocation();
+    const data = location.state; // Access the passed data
+    const [groupMembers, setGroupMembers] = useState([]);
 
-    
-    async function getEmails() {
-    try {
-        const response = await axios.get('http://34.227.51.137:3000/getEmails/'); 
-        const emails = response.data; 
-        return emails;
-    } catch (error) {
-        console.error('Error fetching emails:', error);
-        return []; 
-    }
-    }
+    useEffect(() => {
+        const fetchGroups = async () => {
+            try {
+                const response = await axios.get('http://34.227.51.137:3000/getMLData');
+                const groups = response.data;
+                const studentId = data[0].student_id; // Assuming the student ID is passed in the location state
+                console.log(data);
+                for (const group of groups) {
+                    const member = group.find(member => member.student_id === studentId);
+                    console.log(member);
+                    if (member) {
+                        // Filter out the current member and set the remaining members as the group
+                        setGroupMembers(group.filter(m => m.student_id !== studentId));
+                        break;
+                    }
+                }
+            } catch (error) {
+                console.error('Error fetching groups:', error);
+            }
+        };
 
-    async function getEmailArray() {
-    const emails = await getEmails();
-    const emailArray = emails.map(email => email.address); 
-    return emailArray;
-    }
+        fetchGroups();
+    }, [data.student_id]);
 
-    getEmailArray()
-    .then(emailArray => {
-        console.log('Emails array:', emailArray);
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    });
-
-
-    const dataArray = [];
-    let count = 1;
-    if (count === 0)
-    {
-        return (
+    return (
+        <div>
+            <h2>Group Members</h2>
             <div>
-                <p>
-                    There are no matches here!!
-                </p>
-                <p>
-                    Please either finish setting up your account and/or sign in.
-                </p>
+                {groupMembers.map(member => (
+                    <div key={member.student_id} className="card">
+                        <h3>{member.first_name} {member.last_name}</h3>
+                        <p>Classes: {member.classes}</p>
+                        <p>Availability: {member.availability}</p>
+                    </div>
+                ))}
             </div>
-        )
-    }
-    else
-    {
-        return (
-            <div>
-              <MatchesDyn data={dataArray} />
-            </div>
-        );
-    }
-    
-}
+        </div>
+    );
+};
 
-export default Matches
+export default Matches;
+
+
