@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
@@ -12,9 +12,8 @@ export const SignUp = ({ onSignUp }) => {
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [availabilityRanges, setAvailabilityRanges] = useState([{ availableFrom: '', availableUntil: '', period: 'AM', period2: 'AM' }]);
+  const [availabilityRanges, setAvailabilityRanges] = useState([{ dayOfTheWeek: '', availableFrom: '', availableUntil: ''}]);
   const [classes, setClasses] = useState('');
-  const [dayOfTheWeek, setDayOfTheWeek] = useState('');
 
   const createFirstName = (event) => {
     setFirstName(event.target.value);
@@ -32,10 +31,6 @@ export const SignUp = ({ onSignUp }) => {
     setPassword(event.target.value);
   };
 
-  const createDayOfTheWeek = (event) => {
-    setDayOfTheWeek(event.target.value);
-  };
-
   const handleAvailabilityFromChange = (index, event) => {
     const newAvailabilityRanges = [...availabilityRanges];
     newAvailabilityRanges[index].availableFrom = event.target.value;
@@ -48,8 +43,14 @@ export const SignUp = ({ onSignUp }) => {
     setAvailabilityRanges(newAvailabilityRanges);
   };
 
+  const handleDayOfTheWeekChange = (index, event) => {
+    const newAvailabilityRanges = [...availabilityRanges];
+    newAvailabilityRanges[index].dayOfTheWeek = event.target.value;
+    setAvailabilityRanges(newAvailabilityRanges);
+  };
+
   const handleAddAvailabilityRange = () => {
-    setAvailabilityRanges([...availabilityRanges, { availableFrom: '', availableUntil: '', period: 'AM', period2: 'AM' }]);
+    setAvailabilityRanges([...availabilityRanges, { dayOfTheWeek: '', availableFrom: '', availableUntil: ''}]);
   };
 
   const handleRemoveAvailabilityRange = (index) => {
@@ -60,8 +61,8 @@ export const SignUp = ({ onSignUp }) => {
 
   const createClasses = (event) => {
     setClasses(event.target.value);
-  }
-  
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
@@ -72,8 +73,10 @@ export const SignUp = ({ onSignUp }) => {
           last_name: lastName,
           email: email,
           password: password,
-          dayOfTheWeek: dayOfTheWeek,
-          availability: availabilityRanges,
+          availability: availabilityRanges.map(range => ({
+            ...range,
+            availability: `(${range.availableFrom}, ${range.availableUntil}, ${range.period})`
+          })),
           classes: classes.split(',').map(className => className.trim())
         }),
         headers: {
@@ -88,113 +91,113 @@ export const SignUp = ({ onSignUp }) => {
     }
   };
 
-    return (
-      <Container component="main" maxWidth="sm">
-        <Paper elevation={6} sx={{ mt: 4, p: 3, backgroundColor: '#f4f4f2' }}>
-          <Typography component="h1" variant="h5" align="center" sx={{ color: '#000000' }}>
-            Sign Up
-          </Typography>
-          <form onSubmit={handleSubmit}>
-            <Grid container spacing={2} sx={{ mt: 2 }}>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  label="First Name"
-                  value={firstName}
-                  onChange={createFirstName}
-                  required
-                  fullWidth
-                  sx={{ backgroundColor: 'white', borderRadius: '5px' }}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  label="Last Name"
-                  value={lastName}
-                  onChange={createLastName}
-                  required
-                  fullWidth
-                  sx={{ backgroundColor: 'white', borderRadius: '5px' }}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  label="Email"
-                  type="email"
-                  value={email}
-                  onChange={createEmail}
-                  required
-                  fullWidth
-                  sx={{ backgroundColor: 'white', borderRadius: '5px' }}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  label="Password"
-                  type="password"
-                  value={password}
-                  onChange={createPassword}
-                  required
-                  fullWidth
-                  sx={{ backgroundColor: 'white', borderRadius: '5px' }}
-                />
-              </Grid>
-              {availabilityRanges.map((range, index) => (
-                <React.Fragment key={index}>
-                  <Grid item xs = {2}>
-                    <TextField
-                      label="Day"
-                      value={dayOfTheWeek}
-                      onChange={createDayOfTheWeek}
-                      required
-                      sx={{ backgroundColor: 'white', borderRadius: '5px' }}
-                    />
-                  </Grid>
-                  <Grid item xs={5}>
-                    <TextField
-                      label={`Available From (Range ${index + 1})`}
-                      value={range.availableFrom}
-                      onChange={(event) => handleAvailabilityFromChange(index, event)}
-                      fullWidth
-                      sx={{ backgroundColor: 'white', borderRadius: '5px' }}
-                    />
-                  </Grid>
-                  <Grid item xs={5}>
-                    <TextField
-                      label={`Available Until (Range ${index + 1})`}
-                      value={range.availableUntil}
-                      onChange={(event) => handleAvailabilityUntilChange(index, event)}
-                      fullWidth
-                      sx={{ backgroundColor: 'white', borderRadius: '5px' }}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Button onClick={() => handleRemoveAvailabilityRange(index)} fullWidth>Remove Range {index + 1}</Button>
-                  </Grid>
-                </React.Fragment>
-              ))}
-              <Grid item xs={12}>
-                <Button onClick={handleAddAvailabilityRange} fullWidth sx={{ backgroundColor: '#c5b358', color: 'black' }}>Add Availability Range</Button>
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  label="Classes"
-                  value={classes}
-                  onChange={createClasses}
-                  fullWidth
-                  sx={{ backgroundColor: 'white', borderRadius: '5px' }}
-                >
-                </TextField>
-              </Grid>
-              <Grid item xs={12}>
-                <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
-                  <Button type="submit" variant="contained" sx={{ backgroundColor: '#c5b358', color: "black"}}>Sign Up</Button>
-                </Box>
-              </Grid>
+  return (
+    <Container component="main" maxWidth="sm">
+      <Paper elevation={6} sx={{ mt: 4, p: 3, backgroundColor: '#f4f4f2' }}>
+        <Typography component="h1" variant="h5" align="center" sx={{ color: '#000000' }}>
+          Sign Up
+        </Typography>
+        <form onSubmit={handleSubmit}>
+          <Grid container spacing={2} sx={{ mt: 2 }}>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                label="First Name"
+                value={firstName}
+                onChange={createFirstName}
+                required
+                fullWidth
+                sx={{ backgroundColor: 'white', borderRadius: '5px' }}
+              />
             </Grid>
-          </form>
-        </Paper>
-      </Container>
-    );
-  }
-  
+            <Grid item xs={12} sm={6}>
+              <TextField
+                label="Last Name"
+                value={lastName}
+                onChange={createLastName}
+                required
+                fullWidth
+                sx={{ backgroundColor: 'white', borderRadius: '5px' }}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                label="Email"
+                type="email"
+                value={email}
+                onChange={createEmail}
+                required
+                fullWidth
+                sx={{ backgroundColor: 'white', borderRadius: '5px' }}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                label="Password"
+                type="password"
+                value={password}
+                onChange={createPassword}
+                required
+                fullWidth
+                sx={{ backgroundColor: 'white', borderRadius: '5px' }}
+              />
+            </Grid>
+            {availabilityRanges.map((range, index) => (
+              <React.Fragment key={index}>
+                <Grid item xs={2}>
+                  <TextField
+                    label="Day"
+                    value={range.dayOfTheWeek}
+                    onChange={(event) => handleDayOfTheWeekChange(index, event)}
+                    required
+                    sx={{ backgroundColor: 'white', borderRadius: '5px' }}
+                  />
+                </Grid>
+                <Grid item xs={5}>
+                  <TextField
+                    label={`Available From (Range ${index + 1})`}
+                    value={range.availableFrom}
+                    onChange={(event) => handleAvailabilityFromChange(index, event)}
+                    fullWidth
+                    sx={{ backgroundColor: 'white', borderRadius: '5px' }}
+                  />
+                </Grid>
+                <Grid item xs={5}>
+                  <TextField
+                    label={`Available Until (Range ${index + 1})`}
+                    value={range.availableUntil}
+                    onChange={(event) => handleAvailabilityUntilChange(index, event)}
+                    fullWidth
+                    sx={{ backgroundColor: 'white', borderRadius: '5px' }}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <Button onClick={() => handleRemoveAvailabilityRange(index)} fullWidth>Remove Range {index + 1}</Button>
+                </Grid>
+              </React.Fragment>
+            ))}
+            <Grid item xs={12}>
+              <Button onClick={handleAddAvailabilityRange} fullWidth sx={{ backgroundColor: '#c5b358', color: 'black' }}>Add Availability Range</Button>
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                label="Classes"
+                value={classes}
+                onChange={createClasses}
+                fullWidth
+                sx={{ backgroundColor: 'white', borderRadius: '5px' }}
+              >
+              </TextField>
+            </Grid>
+            <Grid item xs={12}>
+              <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
+                <Button type="submit" variant="contained" sx={{ backgroundColor: '#c5b358', color: "black" }}>Sign Up</Button>
+              </Box>
+            </Grid>
+          </Grid>
+        </form>
+      </Paper>
+    </Container>
+  );
+}
+
 export default SignUp;
