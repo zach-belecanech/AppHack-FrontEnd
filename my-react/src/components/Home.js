@@ -26,15 +26,26 @@ export const Home = props => {
                 <div className="stepsContainer">
                     <div className="step">
                         <h3>Sign Up</h3>
-                        <p>Create your account and tell us about the classes you're taking.</p>
+                        <p>Ready to connect with fellow students and optimize your study schedule? 
+                            Sign up now to join our community exclusively for Appalachian State University's CS department. 
+                            Create your profile and unlock access to a personalized scheduling experience that streamlines 
+                            group collaboration and maximizes your learning potential.</p>
                     </div>
                     <div className="step">
                         <h3>Set Your Schedule</h3>
-                        <p>Input your free time so we can find matches who have similar availability.</p>
+                        <p>Take control of your academic journey by setting your schedule on our platform. 
+                            Input your class timetable, free time slots, and preferred study hours to help 
+                            us match you with compatible peers. Whether you're looking for study partners, 
+                            project collaborators, or simply seeking to enhance your learning experience, 
+                            configuring your schedule is the first step towards finding the perfect group fit.</p>
                     </div>
                     <div className="step">
                         <h3>Get Matched</h3>
-                        <p>Our algorithm finds the best study buddies for you, maximizing class overlaps and syncing schedules.</p>
+                        <p>Experience the power of machine learning in action as our algorithm analyzes your 
+                            schedule and preferences to match you with like-minded peers. Discover study groups
+                             tailored to your availability and course load, ensuring productive collaboration 
+                             and mutual support. Get matched effortlessly and embark on a journey of shared learning 
+                             and academic success with your fellow CS students at Appalachian State University.</p>
                     </div>
                 </div>
             </section>
