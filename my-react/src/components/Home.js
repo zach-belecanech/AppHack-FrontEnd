@@ -1,23 +1,26 @@
 import React from 'react';
 import './Home.css';
 import { Button } from '@mui/material';
+import { Link } from 'react-router-dom'; 
 
 export const Home = props => {
-    
+
     return (
         <div className="homeContainer">
             <section className="hero">
                 <h1>Welcome to ByteBuddies!</h1>
                 <p>Find your perfect study buddy and ace your classes together!</p>
-                {/* Customized Button with inline style for the color scheme */}
-                <Button 
-                    variant="contained" 
-                    style={{ backgroundColor: "#c5b358", color: "black" }}
-                >
-                    Join Now
-                </Button>
+                {}
+                <Link to="/signup">
+                    <Button
+                        variant="contained"
+                        style={{ backgroundColor: "#000000", color: "white" }}
+                    >
+                        Join Now
+                    </Button>
+                </Link>
             </section>
-            
+
             <section className="howItWorks">
                 <h2>How It Works</h2>
                 <div className="stepsContainer">
@@ -42,20 +45,22 @@ export const Home = props => {
                     <p>"ByteBuddies has been a game-changer for my study routine. I've found amazing partners for my toughest classes!"</p>
                     <p className="author">- Jane Doe, Computer Science Major</p>
                 </div>
-                {/* Additional testimonials can be added here */}
+                {}
             </section>
 
             <section className="cta">
                 <h2>Ready to find your ByteBuddy?</h2>
-                {/* Customized Button with inline style for the color scheme */}
-                <Button 
-                    variant="contained" 
-                    style={{ backgroundColor: "#222", color: "#c5b358" }} 
-                >
-                    Sign Up Now
-                </Button>
+                {}
+                <Link to="/signup">
+                    <Button
+                        variant="contained"
+                        style={{ backgroundColor: "#c5b358", color: "black" }} 
+                    >
+                        Sign Up Now
+                    </Button>
+                </Link>
             </section>
-        </div> 
+        </div>
     );
 }
 
