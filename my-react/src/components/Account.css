@@ -1,0 +1,43 @@
+
+.account-container {
+  background-color: #f4f4f2; 
+}
+
+.account-paper {
+  background-color: #fffbe6;
+  color: #222; 
+  padding: 20px;
+  margin: 20px 0;
+  border-left: 5px solid #c5b358; 
+}
+
+.account-textfield {
+  background-color: white; 
+  margin: 10px 0; 
+  border: 2px solid #c5b358; 
+}
+
+.account-button {
+  background-color: #c5b358; 
+  color: #222; 
+  margin: 20px 0;
+  border: none; 
+}
+
+.account-button:hover {
+  background-color: #b49e47; 
+  color: white; 
+}
+
+.account-typography {
+  color: #222; 
+}
+
+.account-ul {
+  padding-left: 20px; 
+  list-style-type: circle; 
+}
+
+.account-li {
+  color: #222; 
+}
